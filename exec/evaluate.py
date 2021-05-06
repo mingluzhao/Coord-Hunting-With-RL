@@ -1,6 +1,5 @@
 import os
 import sys
-
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 dirName = os.path.dirname(__file__)
@@ -8,7 +7,6 @@ sys.path.append(os.path.join(dirName, '..'))
 sys.path.append(os.path.join(dirName, '..', '..'))
 import logging
 import argparse
-
 logging.getLogger('tensorflow').setLevel(logging.ERROR)
 
 from src.environment.multiAgentEnv import *
@@ -138,6 +136,7 @@ def main():
     layerWidth = [128, 128]
 
     #  model ------------------------
+
     buildMADDPGModels = BuildMADDPGModels(actionDim, numAgents, obsShape)
     modelsList = [buildMADDPGModels(layerWidth, agentID) for agentID in range(numAgents)]
 
@@ -151,6 +150,7 @@ def main():
     policy = lambda allAgentsStates: [actOneStepOneModel(model, observe(allAgentsStates)) for model in modelsList]
 
     # generate trajectories ------------
+
     numKillsList = []
     trajToRender = []
     trajList = []
@@ -167,6 +167,7 @@ def main():
     print('meanTrajKill', meanTrajKill, 'se ', seTrajKill)
 
     # save trajectories ------------
+
     trajectoryDirectory = os.path.join(dirName, '..', 'trajectories')
     if not os.path.exists(trajectoryDirectory):
         os.makedirs(trajectoryDirectory)
@@ -179,6 +180,7 @@ def main():
     saveToPickle(trajList, trajSavePath)
 
     # visualize ------------
+
     if visualize:
         trajList = loadFromPickle(trajSavePath)
 

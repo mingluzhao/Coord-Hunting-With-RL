@@ -120,7 +120,7 @@ def main():
 
     layerWidth = [128, 128]
 
-#------------ models ------------------------
+    #------------ models ------------------------
 
     buildMADDPGModels = BuildMADDPGModels(actionDim, numAgents, obsShape)
     modelsList = [buildMADDPGModels(layerWidth, agentID) for agentID in range(numAgents)]

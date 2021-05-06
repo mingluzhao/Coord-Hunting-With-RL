@@ -174,9 +174,6 @@ class BuildMADDPGModels:
             model = tf.Session(graph=graph)
             model.run(tf.global_variables_initializer())
 
-            writer = tf.summary.FileWriter('tensorBoard/onlineDDPG/'+ agentStr, graph= graph)
-            tf.add_to_collection("writer", writer)
-
         return model
 
 
