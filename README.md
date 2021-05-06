@@ -1,31 +1,49 @@
-## Deep-Reinforcement-Learning-with-Tensorflow
+## Coordinated Hunting Experiments with MADDPG
 
-### Table of Contents
+Code for training [MADDPG](https://arxiv.org/pdf/1706.02275.pdf) agents in a collective hunting task. 
 
-* [RLframework](https://github.com/lucyzhao1999/Deep-Reinforcement-Learning-with-Tensorflow/tree/master/RLframework)
-    * Algorithm
-    * Tests
-* [ddpg](https://github.com/lucyzhao1999/Deep-Reinforcement-Learning-with-Tensorflow/tree/master/ddpg)
-    * **src**: core algorithm of DDPG
-    * **exec**: to execute training tasks
-    * **tests**
-    * **trainedDDPGModels**
-    * **plots**
-    * **Demos**: Demos for task Pendulum-v0 and MountainCarContinuous-v0
-* [Environment](https://github.com/lucyzhao1999/Deep-Reinforcement-Learning-with-Tensorflow/tree/master/environment)
-    * **chasingEnvironment**: simple constrained wolf-sheep chasing scenario
-    * **gymEnv**: environment adapted from [Gym by OpenAI](https://gym.openai.com)
-        * Files with names starting with "gym": OpenAI implementation of the task environment
-        * Other files: refactored environment
-    * **noise**
-* [FunctionTools](https://github.com/lucyzhao1999/Deep-Reinforcement-Learning-with-Tensorflow/tree/master/functionTools)
-    * **loadSaveModel**
-    * **trajectory**
-* [Visualization](https://github.com/lucyzhao1999/Deep-Reinforcement-Learning-with-Tensorflow/tree/master/visualize)
+### Command-line options
+
+- `--num-predators`: number of predators in the environment (default: `3`)
+
+- `--speed` speed of the prey as multiples of predator speed (default: `1.0`)
+
+- `--cost` cost-action ratio for predators (default: `0.0`)
+
+- `--selfish`: predator selfish index (default: `0.0`)
+
+- `--num-traj`: number of trajectories to sample (default: `10`)
+
+- `--visualize`: whether to generate demos for sampled trajectories (default: `1`)
+
+- `--save-images`: whether to save demo images (default: `1`)
+
 
 ### Required Packages
 
-* [gym 0.10.5](http://gym.openai.com/docs/)
+* python 3.7.3
 * [tensorflow 1.13.1](https://www.tensorflow.org/install/pip)
 * Numpy 1.16.4
-* Pandas 0.24.2
+
+### Code Structure
+
+- `./exec/train.py`: contains code for training MADDPG agents
+
+- `./exec/evaluate.py`: contains code for evaluating MADDPG agents
+
+- `./src/environment/multiAgentEnv.py`, `./src/environment/reward.py`: collective hunting environment code
+
+- `./src/functionTools/loadSaveModel.py`, `./src/functionTools/trajectory.py`: function tools used in training
+
+- `./src/maddpg/rlTools/RLrun.py`, `./src/maddpg/rlTools/tf_util.py`: RL training functions used
+
+- `./src/maddpg/trainer/MADDPG.py`: core code for maddpg training
+
+- `./visualize/drawDemo.py`: visualization code used in `evaluate.py`
+
+
+
+### Works Cited
+* [Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments](https://arxiv.org/pdf/1706.02275.pdf).
+* [Multi-Agent Particle Environments (MPE)](https://github.com/openai/multiagent-particle-envs).
+
