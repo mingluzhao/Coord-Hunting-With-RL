@@ -151,7 +151,6 @@ class DrawStateEnvMADDPG:
             ##
 
             if agentIndex in self.preyGroupID:
-                print(agentsStatus)
                 agentStatus = agentsStatus[agentIndex]
 
                 if agentStatus == 'kill' or self.killCount != 0:

@@ -22,8 +22,9 @@ Code for training [MADDPG](https://arxiv.org/pdf/1706.02275.pdf) agents in a col
 ### Required Packages
 
 * python 3.7.3
-* [tensorflow 1.13.1](https://www.tensorflow.org/install/pip)
+* tensorflow 1.13.1
 * Numpy 1.16.4
+* Pygame 1.9.6
 
 ### Code Structure
 
@@ -41,6 +42,7 @@ Code for training [MADDPG](https://arxiv.org/pdf/1706.02275.pdf) agents in a col
 
 - `./visualize/drawDemo.py`: visualization code used in `evaluate.py`
 
+- `requirements.txt`: contains requirements for model training and evaluation
 
 
 ### Works Cited
