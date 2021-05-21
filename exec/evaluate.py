@@ -196,14 +196,14 @@ def main():
 
         FPS = 10
         numBlocks = 2
-        predatorColor = [255, 255, 255]
-        preyColor = [0, 250, 0]
-        blockColor = [200, 200, 200]
+        predatorColor = THECOLORS['white']
+        preyColor = THECOLORS['green']
+        blockColor = THECOLORS['grey']
         circleColorSpace = [predatorColor] * numPredators + [preyColor] * numPrey + [blockColor] * numBlocks
         viewRatio = 1.5
         preySize = int(0.05 * screenWidth / (2 * viewRatio))
-        predatorSize = int(0.075 * screenWidth / (3 * viewRatio))
-        blockSize = int(0.2 * screenWidth / (3 * viewRatio))
+        predatorSize = int(0.075 * screenWidth / (3 * viewRatio)) # without boarder
+        blockSize = int(0.2 * screenWidth / (2 * viewRatio))
         circleSizeSpace = [predatorSize] * numPredators + [preySize] * numPrey + [blockSize] * numBlocks
         positionIndex = [0, 1]
         agentIdsToDraw = list(range(numPredators + numPrey + numBlocks))
@@ -218,30 +218,23 @@ def main():
         saveImageDir = os.path.join(os.path.join(imageSavePath, imageFolderName))
         if not os.path.exists(saveImageDir):
             os.makedirs(saveImageDir)
-        imaginedWeIdsForInferenceSubject = list(range(numPredators))
 
-        updateColorSpaceByPosterior = None
-        outsideCircleAgentIds = imaginedWeIdsForInferenceSubject
-        outsideCircleColor = np.array([[255, 0, 0]] * numPredators)
+        outsideCircleColor = [THECOLORS['red']] * numPredators
         outsideCircleSize = int(predatorSize * 1.5)
-        drawCircleOutside = DrawCircleOutsideEnvMADDPG(screen, viewRatio, outsideCircleAgentIds, positionIndex,
-                                                       outsideCircleColor, outsideCircleSize)
-        drawState = DrawStateEnvMADDPG(FPS, screen, viewRatio, circleColorSpace, circleSizeSpace, agentIdsToDraw,
-                                       positionIndex, saveImage, saveImageDir, preyGroupID, predatorsID,
-                                       drawBackground, sensitiveZoneSize=None, updateColorByPosterior=updateColorSpaceByPosterior, drawCircleOutside=drawCircleOutside)
+        drawCircleOutside = DrawCircleOutside(screen, predatorsID, positionIndex,
+                                              outsideCircleColor, outsideCircleSize, viewRatio= viewRatio)
+
+        drawState = DrawState(FPS, screen, circleColorSpace, circleSizeSpace, agentIdsToDraw,
+                              positionIndex, saveImage, saveImageDir, preyGroupID, predatorsID,
+                              drawBackground, drawCircleOutside=drawCircleOutside, viewRatio= viewRatio)
 
         # MDP Env
-        interpolateState = None
-        stateIndexInTimeStep = 0
-        actionIndexInTimeStep = 1
-        posteriorIndexInTimeStep = None
-
         stateID = 0
         nextStateID = 3
         predatorSizeForCheck = 0.075
         preySizeForCheck = 0.05
         checkStatus = CheckStatus(predatorsID, preyGroupID, isCollision, predatorSizeForCheck, preySizeForCheck, stateID, nextStateID)
-        chaseTrial = ChaseTrialWithTrajWithKillNotation(stateIndexInTimeStep, drawState, checkStatus, interpolateState, actionIndexInTimeStep, posteriorIndexInTimeStep)
+        chaseTrial = ChaseTrialWithKillNotation(stateID, drawState, checkStatus)
         [chaseTrial(trajectory) for trajectory in np.array(trajList[:20])]
 
 
